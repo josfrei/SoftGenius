@@ -7,14 +7,14 @@ import java.awt.event.ComponentEvent;
 
 public class Login extends JFrame {
     private final JPanel panelLogin = new PanelLogin();
-    private int anchoFrame;
-    private int altoFrame;
+    private static int anchoFrame;
+    private static int altoFrame;
 
     public Login() {
         super();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setBackground(Color.BLACK);
-        this.setSize(800, 800);
+        this.setSize(1920, 1080);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
 
@@ -41,7 +41,14 @@ public class Login extends JFrame {
         int altoPanel = (int) (altoFrame * 0.42);
         panelLogin.setBounds(posX, posY, anchoPanel, altoPanel);
     }
-
+    
+    public static int getAnchoFrame(){
+        return anchoFrame;
+    }
+    public static int getAltoFrame(){
+        return altoFrame;
+    }
+    
 }
 
 

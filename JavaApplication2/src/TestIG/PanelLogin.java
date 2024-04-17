@@ -82,7 +82,7 @@ public class PanelLogin extends JPanel implements ActionListener{
         lblUsuario.setFont(labelFont);
         lblContrasenia.setFont(labelFont);
 
-        btnLogin.setBackground(new Color(51, 153, 255));
+        btnLogin.setBackground(new Color(204, 102, 255));
         btnLogin.setForeground(Color.WHITE);
         btnLogin.setFocusPainted(false);
         btnLogin.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));

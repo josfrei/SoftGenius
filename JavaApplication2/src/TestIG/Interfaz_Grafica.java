@@ -4,6 +4,8 @@
  */
 package TestIG;
 
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Usuario
@@ -12,7 +14,7 @@ public class Interfaz_Grafica {
     
     
     Interfaz_Grafica(){
-        new Login();
+       SwingUtilities.invokeLater(() -> new Login());
     }
     
 }
