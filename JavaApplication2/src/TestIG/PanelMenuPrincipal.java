@@ -8,24 +8,34 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
  *
- * @author Usuario
+ * @author Iago
  */
 // Finalizar left panel
 // Realizar panel inferior
 // Añadir detalles
 
 public class PanelMenuPrincipal extends JPanel{
-    JPanel panelIzquierdo = new LeftPanelMP();
-    
-    public PanelMenuPrincipal(){
+    private LeftPanelMP leftPanelMP;
+    private BottomPanelMP bottomPanelMP;
+
+     public PanelMenuPrincipal() {
         Style();
         setLayout(new BorderLayout());
-        this.add(panelIzquierdo, BorderLayout.WEST);
+        leftPanelMP = new LeftPanelMP();
+        add(leftPanelMP, BorderLayout.WEST);
+
+        bottomPanelMP = new BottomPanelMP();
+        add(bottomPanelMP, BorderLayout.SOUTH);
+        
+        
+        setComponentZOrder(leftPanelMP, 0);// Coloca panelIzquierdo encima del inferior
         this.setVisible(true);
     }
     
@@ -36,6 +46,5 @@ public class PanelMenuPrincipal extends JPanel{
     //Método para añadir panel Lateral izquierdo
     
     //Método para añadir barra inferior
-    
-    
+
 }

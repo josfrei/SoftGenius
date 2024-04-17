@@ -6,7 +6,7 @@ package TestIG;
 
 /**
  *
- * @author Usuario
+ * @author Iago
  */
 import java.awt.Color;
 import javax.swing.BorderFactory;

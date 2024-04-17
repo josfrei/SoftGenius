@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author Usuario
+ * @author Iago
  */
 public class Interfaz_Grafica {
     

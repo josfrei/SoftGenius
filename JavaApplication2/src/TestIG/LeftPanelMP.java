@@ -17,6 +17,13 @@ import java.awt.color.ColorSpace;
 
 /*Esta clase representa el panel izquierdo del menú principal, que contiene una imagen con el logo
     Comboboxes desplegables y 2 botones de acción.*/
+    
+/**
+ *
+ * @author Iago
+ * Falta modificar estilos
+ * Solicitar nuevo Logo
+ */
 
 public class LeftPanelMP extends JPanel {
     private final JLabel lblLogo = new JLabel();
@@ -26,7 +33,7 @@ public class LeftPanelMP extends JPanel {
     private final JComboBox<String> cbOtros = new JComboBox<>();
     private final JButton btnIr = new JButton("Ir");
     private final JButton btnSalir = new JButton("Salir");
-    private final Color colorFondo = Color.LIGHT_GRAY; 
+    private final Color colorFondo = new Color(237, 204, 223); 
     private int ancho = 0;
 
     public LeftPanelMP() {
@@ -35,7 +42,7 @@ public class LeftPanelMP extends JPanel {
     }
     
     private void style() {
-        this.setBackground(Color.LIGHT_GRAY);
+        this.setBackground(colorFondo);
         this.setLayout(new GridBagLayout());
     }
 

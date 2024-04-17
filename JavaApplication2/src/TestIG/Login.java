@@ -3,8 +3,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-//Falta implementar redimensión y añadir detalles / Modificar colores
 
+//Falta implementar redimensión y añadir detalles / Modificar colores
+/**
+ *
+ * @author Iago
+ */
 public class Login extends JFrame {
     private final JPanel panelLogin = new PanelLogin();
     private static int anchoFrame;
