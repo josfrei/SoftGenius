@@ -30,27 +30,6 @@ public class Login extends JFrame {
         this.add(panelLogin);
         panelLogin.setOpaque(true);
     }
-
-    private void obtenerDimensionesPanel() {
-        anchoFrame = this.getWidth();
-        altoFrame = this.getHeight();
-    }
-    
-    private void recolocarPanel() {
-        int posX = (int) (anchoFrame * 0.23);
-        int posY = (int) (altoFrame * 0.28);
-        int anchoPanel = (int) (anchoFrame * 0.52);
-        int altoPanel = (int) (altoFrame * 0.42);
-        panelLogin.setBounds(posX, posY, anchoPanel, altoPanel);
-    }
-    
-    public static int getAnchoFrame(){
-        return anchoFrame;
-    }
-    public static int getAltoFrame(){
-        return altoFrame;
-    }
-    
 }
 
 

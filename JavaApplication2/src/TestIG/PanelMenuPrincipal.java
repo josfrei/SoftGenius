@@ -6,6 +6,7 @@ package TestIG;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.IOException;
 import javax.swing.JPanel;
 
 /**
@@ -16,15 +17,15 @@ import javax.swing.JPanel;
 // Realizar panel inferior
 // Añadir detalles
 
-public class PanelMenuPrincipal extends JPanel{
+public class PanelMenuPrincipal extends JPanel {
     private final JPanel panelAuxiliar;
-    private final LeftPanelMP leftPanelMP;
+    private final LeftPanelMPv2 leftPanelMP;
     private final BottomPanelMP bottomPanelMP;
     
 
-     public PanelMenuPrincipal() {
+     public PanelMenuPrincipal() throws IOException{
         panelAuxiliar = new JPanel(); //Quedará por debajo del MP, como una capa
-        leftPanelMP = new LeftPanelMP();
+        leftPanelMP = new LeftPanelMPv2();
         bottomPanelMP = new BottomPanelMP();
         Style();
         setLayout(new BorderLayout());
