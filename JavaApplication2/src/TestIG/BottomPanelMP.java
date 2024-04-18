@@ -2,32 +2,34 @@ package TestIG;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 /**
  *
  * @author Iago
  */
 /*Clase que representa el panel inferior del menu principal, con un label para el usuario activo y un panel en el que se introducirá el calendario*/
-public class BottomPanelMP extends JPanel {
+public class BottomPanelMP extends JPanel implements ActionListener{
     private int ancho;
     private final Color colorFondo = new Color(220, 220, 245);
-    private String nombreUA= "Iago";
-    private JLabel lblUsuarioActivo = new JLabel("Sesión iniciada como: "+ nombreUA);
-    private JPanel panelCalendario = new JPanel();
+    private final String nombreUA= "Iago";
+    private final JLabel lblUsuarioActivo = new JLabel("Sesión iniciada como: "+ nombreUA);
+    private final JLabel labelCalendario = new JLabel("Placeholder");
     
     
     public BottomPanelMP() {
         style();
         initComp();
+        setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));
     }
     
     private void style() {
@@ -38,7 +40,7 @@ public class BottomPanelMP extends JPanel {
     
     private void initComp() {
         lblUsuarioActivo();
-        panelCalendario();
+        labelCalendario();
 
         // Crear spacer 1
         JPanel spacer1 = new JPanel();
@@ -74,21 +76,21 @@ public class BottomPanelMP extends JPanel {
         gbcUsuarioActivo.anchor = GridBagConstraints.WEST; // Alinear al inicio horizontalmente
         gbcUsuarioActivo.insets = new Insets(0, 10, 0, 10); // Márgenes
 
-        // Crear constraints para panelCalendario
+        // Crear constraints para labelCalendario
         GridBagConstraints gbcCalendario = new GridBagConstraints();
         gbcCalendario.gridx = 4; // Posición x en la quinta columna
         gbcCalendario.gridy = 0; // Posición y en la única fila
-        gbcCalendario.weightx = 0.25; // Porcentaje de espacio horizontal
+        gbcCalendario.weightx = 0.2; // Porcentaje de espacio horizontal
         gbcCalendario.weighty = 0.5; // Porcentaje de espacio vertical
         gbcCalendario.fill = GridBagConstraints.HORIZONTAL; // Rellenar horizontalmente
         gbcCalendario.anchor = GridBagConstraints.CENTER; // Alinear al centro horizontalmente
-        gbcCalendario.insets = new Insets(0, 10, 0, 10); // Márgenes
+        gbcCalendario.insets = new Insets(0, 0, 0, 40); // Márgenes
 
-        // Agregar spacers, lblUsuarioActivo y panelCalendario con los constraints
+        // Agregar spacers, lblUsuarioActivo y labelCalendario con los constraints
         add(spacer1, gbcSpacer1);
         add(spacer2, gbcSpacer2);
         add(lblUsuarioActivo, gbcUsuarioActivo);
-        add(panelCalendario, gbcCalendario);
+        add(labelCalendario, gbcCalendario);
 }
     
     private void lblUsuarioActivo(){
@@ -96,13 +98,22 @@ public class BottomPanelMP extends JPanel {
         Font font = new Font("Arial", Font.PLAIN, 14); // Fuente Arial, tamaño 14, estilo plano
         lblUsuarioActivo.setFont(font); // Aplicar la fuente al JLabel
     }
-    private void panelCalendario() {
-        panelCalendario.setSize(200, 100);
-        Border calendarioBorder = BorderFactory.createLineBorder(Color.BLACK);
-        Border roundedBorder = BorderFactory.createLineBorder(Color.BLACK);
-        // Crea un borde redondeado con un radio de 10
-        Border rounded = BorderFactory.createLineBorder(Color.BLACK);
-        panelCalendario.setBorder(BorderFactory.createCompoundBorder(calendarioBorder, rounded));
+    
+    private void labelCalendario() {
+        
+        labelCalendario.setHorizontalAlignment(SwingConstants.CENTER);
+
+        //labelCalendario.setSize(200, 100);
+        Border calendarioBorder = BorderFactory.createLineBorder(Color.lightGray);
+
+        // Creamos un borde redondeado con un radio de 10
+        Border roundedBorder = BorderFactory.createLineBorder(Color.lightGray, 1);
+
+        // Creamos un borde compuesto que incluya ambos bordes
+        Border compoundBorder = BorderFactory.createCompoundBorder(calendarioBorder, roundedBorder);
+
+        // Asignamos el borde compuesto al panel
+        labelCalendario.setBorder(compoundBorder);
     }
 
     
@@ -118,5 +129,13 @@ public class BottomPanelMP extends JPanel {
         ancho = width;
         // Devolver la dimensión calculada
         return new Dimension(width, height);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource()==labelCalendario){
+        //Lógica tras pulsar el calendario
+        }
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

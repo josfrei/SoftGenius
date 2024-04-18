@@ -1,109 +1,74 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package TestIG;
 
-/**
- *
- * @author Iago
- */
+import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.Timer;
 
-// Cambiar distribución paneles
+public class PanelLogin extends JPanel {
+    private final JPanel panelIniciarSesion = new PanelCuadroLogin();
+    private final JPanel panelIzquierda = new JPanel();
+    private final JPanel panelDerecha = new JPanel();
+    private final JLabel labelImagen = new JLabel();
+    private final ImageIcon iconLogo = new ImageIcon("recursos/imagenSoftGenius.png");
 
-public class PanelLogin extends JPanel implements ActionListener{
-
-    private final JLabel lblTitulo = new JLabel("Inicio de Sesión");
-    private final JLabel lblUsuario = new JLabel("Usuario:");
-    private final JLabel lblContrasenia = new JLabel("Contraseña:");
-    private final JTextField tfUsuario = new JTextField(20);
-    private final JPasswordField pfContrasenia = new JPasswordField(20);
-    private final JButton btnLogin = new JButton("Iniciar Sesión");
-
-    // Constructor del panel
     public PanelLogin() {
+        setSize(1920, 1080);
         setBackground(Color.WHITE);
-
-        
-        setLayout(new GridBagLayout());
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets.bottom = 10;
-        add(lblTitulo, gbc);
-
-        gbc.gridy++;
-        add(lblUsuario, gbc);
-
-        gbc.gridy++;
-        add(tfUsuario, gbc);
-
-        gbc.gridy++;
-        add(lblContrasenia, gbc);
-
-        gbc.gridy++;
-        add(pfContrasenia, gbc);
-
-        gbc.gridy++;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(btnLogin, gbc);
-        btnLogin.addActionListener(this);
-
-        // Estilos
-        estilizarComponentes();
-        
+        configurarLayout();
     }
 
-    // Estilos para componentes
-    private void estilizarComponentes() {
-        Font tituloFont = new Font("Arial", Font.BOLD, 24);
-        lblTitulo.setFont(tituloFont);
-        lblTitulo.setForeground(Color.BLACK);
-
-        Font labelFont = new Font("Arial", Font.PLAIN, 16);
-        lblUsuario.setFont(labelFont);
-        lblContrasenia.setFont(labelFont);
-
-        btnLogin.setBackground(new Color(204, 102, 255));
-        btnLogin.setForeground(Color.WHITE);
-        btnLogin.setFocusPainted(false);
-        btnLogin.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        btnLogin.setFont(new Font("Arial", Font.BOLD, 16));
-
-        tfUsuario.setFont(new Font("Arial", Font.PLAIN, 16));
-        pfContrasenia.setFont(new Font("Arial", Font.PLAIN, 16));
+    private void configurarLayout() {
+        setLayout(new GridLayout(1, 2)); // Divide el panel en 2 columnas
+        configurarPanelDerecha();
+        add(panelIzquierda);
+        add(panelDerecha);
+        configurarPanelIzquierda();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnLogin) {
-            // Obtén el JFrame padre del PanelLogin
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    private void configurarPanelIzquierda() {
+        panelIzquierda.setBackground(Color.WHITE);
+        panelIzquierda.setLayout(new BorderLayout());
 
-            // Crea y muestra el panelMenuPrincipal
-            JPanel panelMP = new PanelMenuPrincipal();
-            frame.getContentPane().removeAll(); // Limpia todos los componentes actuales del JFrame
-            frame.getContentPane().add(panelMP); // Agrega el nuevo panel al JFrame
-            frame.revalidate(); // Vuelve a validar el contenido del JFrame para que se muestre el nuevo panel
-        }
+        // Temporizador para retrasar la operación de redimensionamiento de la imagen
+        Timer timer = new Timer(100, (ActionEvent e) -> {
+            // Obtener el tamaño actual del panel izquierdo
+            int width1 = panelIzquierda.getWidth();
+            int height1 = panelIzquierda.getHeight();
+            // Escalar la imagen al nuevo tamaño del panel izquierdo
+            Image imagenEscalada = iconLogo.getImage().getScaledInstance(width1, height1, Image.SCALE_SMOOTH);
+            // Crear un nuevo ImageIcon con la imagen escalada
+            ImageIcon iconoEscalado = new ImageIcon(imagenEscalada);
+            // Establecer el icono en el JLabel
+            labelImagen.setIcon(iconoEscalado);
+        });
+
+        // Añadir un listener para escuchar los eventos de redimensionamiento del panel izquierdo
+        panelIzquierda.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                // Reiniciar el temporizador
+                timer.restart();
+            }
+        });
+
+        // Añadir el JLabel al panel izquierdo
+        panelIzquierda.add(labelImagen);
     }
 
+
+
+
+    private void configurarPanelDerecha() {
+        panelDerecha.setLayout(new BorderLayout());
+        panelDerecha.setBackground(Color.WHITE);
+        panelDerecha.add(panelIniciarSesion, BorderLayout.CENTER);
+    }
 }

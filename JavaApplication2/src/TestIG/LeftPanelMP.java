@@ -13,7 +13,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.*;
-import java.awt.color.ColorSpace;
+import javax.swing.BorderFactory;
 
 /*Esta clase representa el panel izquierdo del menú principal, que contiene una imagen con el logo
     Comboboxes desplegables y 2 botones de acción.*/
@@ -27,18 +27,20 @@ import java.awt.color.ColorSpace;
 
 public class LeftPanelMP extends JPanel {
     private final JLabel lblLogo = new JLabel();
-    private ImageIcon iconLogo = new ImageIcon("recursos/imagenSoftGenius.png"); // Añadir logo minimalista
+    private ImageIcon iconLogo = new ImageIcon("recursos/Pruebalogo.png"); // Añadir logo minimalista
     private final JComboBox<String> cbFinanzas = new JComboBox<>();
     private final JComboBox<String> cbRecursosHumanos = new JComboBox<>();
     private final JComboBox<String> cbOtros = new JComboBox<>();
     private final JButton btnIr = new JButton("Ir");
     private final JButton btnSalir = new JButton("Salir");
-    private final Color colorFondo = new Color(237, 204, 223); 
+    private final Color colorFondo = new Color(255, 240, 250);
+    private final Color colorBotones = new Color(237, 204, 223); //Color original de la gama de colores
     private int ancho = 0;
 
     public LeftPanelMP() {
         style();
         initComp();
+        setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));
     }
     
     private void style() {
@@ -101,6 +103,7 @@ public class LeftPanelMP extends JPanel {
         btnIr.setBackground(new Color(204, 102, 255));
         btnIr.setForeground(Color.WHITE);
         btnIr.setFocusPainted(false);
+        
         btnSalir.setBackground(new Color(204, 102, 255));
         btnSalir.setForeground(Color.WHITE);
         btnSalir.setFocusPainted(false);
@@ -150,7 +153,6 @@ public class LeftPanelMP extends JPanel {
     // Método para cargar la imagen del logo
     private void iniciarImagen() {
         try {
-            iconLogo = new ImageIcon("recursos/imagenSoftGenius.png");
             Image image = iconLogo.getImage().getScaledInstance(200,150,Image.SCALE_SMOOTH);
             iconLogo = new ImageIcon(image);
             lblLogo.setIcon(iconLogo);

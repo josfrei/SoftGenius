@@ -6,11 +6,6 @@ package TestIG;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.HeadlessException;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -22,25 +17,29 @@ import javax.swing.JPanel;
 // Añadir detalles
 
 public class PanelMenuPrincipal extends JPanel{
-    private LeftPanelMP leftPanelMP;
-    private BottomPanelMP bottomPanelMP;
+    private final JPanel panelAuxiliar;
+    private final LeftPanelMP leftPanelMP;
+    private final BottomPanelMP bottomPanelMP;
+    
 
      public PanelMenuPrincipal() {
+        panelAuxiliar = new JPanel(); //Quedará por debajo del MP, como una capa
+        leftPanelMP = new LeftPanelMP();
+        bottomPanelMP = new BottomPanelMP();
         Style();
         setLayout(new BorderLayout());
-        leftPanelMP = new LeftPanelMP();
+        
+        panelAuxiliar.add(bottomPanelMP,BorderLayout.SOUTH);
+        add(panelAuxiliar,BorderLayout.CENTER);
         add(leftPanelMP, BorderLayout.WEST);
-
-        bottomPanelMP = new BottomPanelMP();
-        add(bottomPanelMP, BorderLayout.SOUTH);
         
         
-        setComponentZOrder(leftPanelMP, 0);// Coloca panelIzquierdo encima del inferior
         this.setVisible(true);
     }
     
     private void Style(){
         this.setBackground(Color.WHITE);
+        panelAuxiliar.setLayout(new BorderLayout());
     }
     
     //Método para añadir panel Lateral izquierdo
