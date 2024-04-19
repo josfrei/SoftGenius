@@ -20,7 +20,7 @@ import javax.swing.border.Border;
 /*Clase que representa el panel inferior del menu principal, con un label para el usuario activo y un panel en el que se introducirá el calendario*/
 public class BottomPanelMP extends JPanel implements ActionListener{
     private int ancho;
-    private final Color colorFondo = new Color(220, 220, 245);
+    private final Color colorFondo = new Color(240, 240, 240);
     private final String nombreUA= "Iago";
     private final JLabel lblUsuarioActivo = new JLabel("Sesión iniciada como: "+ nombreUA);
     private final JLabel labelCalendario = new JLabel("Placeholder");

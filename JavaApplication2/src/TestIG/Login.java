@@ -13,7 +13,8 @@ public class Login extends JFrame {
     private static int altoFrame;
 
     public Login() {
-        super();
+        super("SoftGenius Solutions");
+        añadirIcono();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setBackground(Color.BLACK);
         this.setSize(1920, 1080);
@@ -30,6 +31,12 @@ public class Login extends JFrame {
         this.add(panelLogin);
         panelLogin.setOpaque(true);
     }
+    private void añadirIcono(){
+    // Carga el ícono desde un archivo de imagen
+        ImageIcon icono = new ImageIcon("recursos/grafico-circular.png");
+        
+        // Establece el ícono del JFrame
+        setIconImage(icono.getImage());}
 }
 
 

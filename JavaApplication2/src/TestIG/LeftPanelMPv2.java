@@ -12,6 +12,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +27,7 @@ import javax.swing.plaf.ColorUIResource;
 /* Esta clase representa el panel izquierdo del menú principal, que contiene una imagen con el logo
     Botones con iconos personalizados y 2 botones de acción. */
 
-public class LeftPanelMPv2 extends JPanel {
+public class LeftPanelMPv2 extends JPanel implements ActionListener{
     private final JLabel lblLogo = new JLabel();
     private ImageIcon iconLogo = new ImageIcon("recursos/Pruebalogo.png"); // Añadir logo minimalista
     
@@ -35,7 +37,7 @@ public class LeftPanelMPv2 extends JPanel {
     private final JButton btnOtroBoton = new JButton("Ph");
     private final JButton btnIniciar = new JButton("Ph");
     private final JButton btnSalir = new JButtonHover("recursos/salir-hover.png","recursos/Salir.png");
-    private final Color colorFondo = Color.WHITE; //new Color(255, 240, 250);
+    private final Color colorFondo = new Color(240, 240, 240);
     private final Color colorBotones = new Color(237, 204, 223); //Color original de la gama de colores
     private int ancho = 0;
     
@@ -44,12 +46,11 @@ public class LeftPanelMPv2 extends JPanel {
     public LeftPanelMPv2() throws IOException{
         style();
         initComp();
-        setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));
-          
+        setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));       
     }
     //Estilos que aplican al panel
     private void style() {
-        this.setBackground(Color.WHITE);
+        this.setBackground(colorFondo);
         this.setLayout(new GridBagLayout());
     }
 
@@ -105,22 +106,29 @@ public class LeftPanelMPv2 extends JPanel {
         btnVentas.setBackground(colorFondo);
         btnVentas.setBorderPainted(false);
         btnVentas.setToolTipText("Ventas");
+        btnVentas.addActionListener(this);
+        
         
         setToolTipManager();
         btnPersonal.setBackground(colorFondo); 
         btnPersonal.setBorderPainted(false);
         btnPersonal.setToolTipText("Personal");
+        btnPersonal.addActionListener(this);
         
         setToolTipManager();
         btnStock.setBackground(colorFondo);
         btnStock.setBorderPainted(false);
         btnStock.setToolTipText("Stock");
+        btnStock.addActionListener(this);
+        
         
         btnOtroBoton.setBackground(colorFondo);
         btnVentas.setToolTipText("Ventas");
         btnIniciar.setBackground(colorFondo);
         btnSalir.setBackground(colorFondo);
         btnSalir.setBorderPainted(false);
+        btnSalir.addActionListener(this);
+        
 
     }
     
@@ -133,7 +141,7 @@ public class LeftPanelMPv2 extends JPanel {
     // Método para crear el panel de botones
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel(new GridLayout(5, 1, 0,15)); // 5 filas, 1 columna, espacio vertical de 10 pixels entre componentes
-        panel.setBackground(Color.WHITE); // Ajustar a color de fondo
+        panel.setBackground(colorFondo); // Ajustar a color de fondo
         
 
         
@@ -206,6 +214,29 @@ public class LeftPanelMPv2 extends JPanel {
             btnStock.setIcon(new ImageIcon(scaledImage));
         } catch (IOException e) {
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btnSalir){
+        //Lógica para salir del programa, cerrar sesión, ¿volver a menu principal?
+        System.exit(0);
+        
+        }
+        if(e.getSource() == btnVentas){
+        //Lógica para mostrar ventas en el futuro panel central
+        }
+        if(e.getSource() == btnPersonal){
+        
+        }
+        if(e.getSource() == btnStock){
+        
+        }
+        
+        
+        
+        
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
 
