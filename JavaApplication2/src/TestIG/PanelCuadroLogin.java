@@ -7,6 +7,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -87,14 +90,18 @@ public class PanelCuadroLogin extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnLogin) {
-            // Obtén el JFrame padre del PanelLogin
-            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-
-            // Crea y muestra el panelMenuPrincipal
-            JPanel panelMP = new PanelMenuPrincipal();
-            frame.getContentPane().removeAll(); // Limpia todos los componentes actuales del JFrame
-            frame.getContentPane().add(panelMP); // Agrega el nuevo panel al JFrame
-            frame.revalidate(); // Vuelve a validar el contenido del JFrame para que se muestre el nuevo panel
+            try {
+                // Obtén el JFrame padre del PanelLogin
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                
+                // Crea y muestra el panelMenuPrincipal
+                JPanel panelMP = new PanelMenuPrincipal();
+                frame.getContentPane().removeAll(); // Limpia todos los componentes actuales del JFrame
+                frame.getContentPane().add(panelMP); // Agrega el nuevo panel al JFrame
+                frame.revalidate(); // Vuelve a validar el contenido del JFrame para que se muestre el nuevo panel
+            } catch (IOException ex) {
+                Logger.getLogger(PanelCuadroLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
