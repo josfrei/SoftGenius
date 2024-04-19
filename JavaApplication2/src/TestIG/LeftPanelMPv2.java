@@ -17,6 +17,10 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JPopupMenu;
+import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 
 /* Esta clase representa el panel izquierdo del menú principal, que contiene una imagen con el logo
     Botones con iconos personalizados y 2 botones de acción. */
@@ -24,17 +28,15 @@ import javax.swing.BorderFactory;
 public class LeftPanelMPv2 extends JPanel {
     private final JLabel lblLogo = new JLabel();
     private ImageIcon iconLogo = new ImageIcon("recursos/Pruebalogo.png"); // Añadir logo minimalista
-    private final JButton btnVentas = new JButtonHover("recursos/venta.png","recursos/venta-hover.png");
-    private final JButton btnPersonal = new JButton();
-    private final JButton btnStock = new JButton();
-    private final JButton btnOtroBoton = new JButton();
-    private final JButton btnIniciar = new JButton("Iniciar");
-    private final JButton btnSalir = new JButton("Salir");
-    private final Color colorFondo = new Color(255, 240, 250);
+    
+    private final JButton btnVentas = new JButtonHover("recursos/venta-hover2.png","recursos/venta.png");
+    private final JButton btnPersonal = new JButtonHover("recursos/Personas-hover2.png","recursos/personal.png");
+    private final JButton btnStock = new JButtonHover("recursos/Stock-hover2.png","recursos/Stock.png");
+    private final JButton btnOtroBoton = new JButton("Ph");
+    private final JButton btnIniciar = new JButton("Ph");
+    private final JButton btnSalir = new JButtonHover("recursos/salir-hover.png","recursos/Salir.png");
+    private final Color colorFondo = Color.WHITE; //new Color(255, 240, 250);
     private final Color colorBotones = new Color(237, 204, 223); //Color original de la gama de colores
-    private final ImageIcon imgBtnVentas = new ImageIcon("recursos/venta.png");
-    private final ImageIcon imgBtnPersonal = new ImageIcon("recursos/personal.png");
-    private final ImageIcon imgBtnStock = new ImageIcon("recursos/Stock.png");
     private int ancho = 0;
     
     
@@ -42,8 +44,8 @@ public class LeftPanelMPv2 extends JPanel {
     public LeftPanelMPv2() throws IOException{
         style();
         initComp();
-        imagenesBotones();
         setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));
+          
     }
     //Estilos que aplican al panel
     private void style() {
@@ -93,19 +95,41 @@ public class LeftPanelMPv2 extends JPanel {
     // Estilizamos los componentes
     private void styleComponents() {
         
+
+        
         lblLogo.setPreferredSize(new Dimension(100, 100));
         lblLogo.setMaximumSize(new Dimension(100, 100));
         lblLogo.setHorizontalAlignment(JLabel.CENTER);
-
-        btnVentas.setBackground(colorFondo);    
+        
+        setToolTipManager();
+        btnVentas.setBackground(colorFondo);
+        btnVentas.setBorderPainted(false);
+        btnVentas.setToolTipText("Ventas");
+        
+        setToolTipManager();
         btnPersonal.setBackground(colorFondo); 
+        btnPersonal.setBorderPainted(false);
+        btnPersonal.setToolTipText("Personal");
+        
+        setToolTipManager();
         btnStock.setBackground(colorFondo);
+        btnStock.setBorderPainted(false);
+        btnStock.setToolTipText("Stock");
+        
         btnOtroBoton.setBackground(colorFondo);
+        btnVentas.setToolTipText("Ventas");
         btnIniciar.setBackground(colorFondo);
         btnSalir.setBackground(colorFondo);
+        btnSalir.setBorderPainted(false);
 
     }
-
+    
+    private void setToolTipManager(){
+        ToolTipManager.sharedInstance().setInitialDelay(800);
+        ToolTipManager.sharedInstance().setDismissDelay(1000);
+        UIManager.put("ToolTip.background", new ColorUIResource(colorFondo));
+        UIManager.put("ToolTip.border", BorderFactory.createEmptyBorder());
+    }
     // Método para crear el panel de botones
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel(new GridLayout(5, 1, 0,15)); // 5 filas, 1 columna, espacio vertical de 10 pixels entre componentes
@@ -124,13 +148,6 @@ public class LeftPanelMPv2 extends JPanel {
         return panel;
     }
     
-    //Método para las imágenes de los botones
-    private void setImagenesBotones(){
-        btnVentas.setIcon(imgBtnVentas);
-        btnPersonal.setIcon(imgBtnPersonal);
-        btnStock.setIcon(imgBtnStock);
-
-}
     // Override el método getPreferredSize para definir el tamaño preferido del panel
     @Override
     public Dimension getPreferredSize() {
@@ -152,7 +169,8 @@ public class LeftPanelMPv2 extends JPanel {
         }
     }   
     
-    //Métodos para asignar las imágenes a los botones
+    //Métodos para asignar las imágenes a los botones (Deprecated) Remove later
+    //Ahora usamos la clase JButtonHover e iniciamos los botones directamente
     private void imagenesBotones(){
         ImagenBotonVentas();
         ImagenBotonPersonal();
