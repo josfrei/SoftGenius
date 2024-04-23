@@ -17,13 +17,14 @@ public class Login extends JFrame {
         añadirIcono();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setBackground(Color.BLACK);
-        this.setSize(1920, 1080);
+        this.setSize(1366, 768); //Se modifica la resolución a la estándar de laptops low-cost
         this.setLocationRelativeTo(null);
         this.setResizable(true);
 
        // Método para redimensionar el panel con la ventana
 
         añadirPanelLogin();
+        
         this.setVisible(true);
     }
 
@@ -33,7 +34,7 @@ public class Login extends JFrame {
     }
     private void añadirIcono(){
     // Carga el ícono desde un archivo de imagen
-        ImageIcon icono = new ImageIcon("recursos/grafico-circular.png");
+        ImageIcon icono = new ImageIcon("recursos/imagenSoftGenius.png");
         
         // Establece el ícono del JFrame
         setIconImage(icono.getImage());}

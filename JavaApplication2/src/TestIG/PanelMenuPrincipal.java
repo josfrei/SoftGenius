@@ -21,16 +21,20 @@ public class PanelMenuPrincipal extends JPanel {
     private final JPanel panelAuxiliar;
     private final LeftPanelMPv2 leftPanelMP;
     private final BottomPanelMP bottomPanelMP;
+    private final PanelCentral panelCentral;
     
 
      public PanelMenuPrincipal() throws IOException{
         panelAuxiliar = new JPanel(); //Quedará por debajo del MP, como una capa
         leftPanelMP = new LeftPanelMPv2();
         bottomPanelMP = new BottomPanelMP();
+        panelCentral = new PanelCentral();
         Style();
         setLayout(new BorderLayout());
         
-        panelAuxiliar.add(bottomPanelMP,BorderLayout.SOUTH);
+        panelAuxiliar.add(bottomPanelMP,BorderLayout.SOUTH); //Se añade al panelAuxiliar para que no se superponga al panel izquierdo
+        panelAuxiliar.add(panelCentral,BorderLayout.CENTER);
+        //Añadimos al panelMP 
         add(panelAuxiliar,BorderLayout.CENTER);
         add(leftPanelMP, BorderLayout.WEST);
         
@@ -43,8 +47,7 @@ public class PanelMenuPrincipal extends JPanel {
         panelAuxiliar.setLayout(new BorderLayout());
     }
     
-    //Método para añadir panel Lateral izquierdo
-    
-    //Método para añadir barra inferior
+    //añadir panel Lateral izquierdo
+
 
 }

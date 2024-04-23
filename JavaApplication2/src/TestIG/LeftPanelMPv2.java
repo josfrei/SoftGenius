@@ -38,7 +38,7 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
     private final JButton btnIniciar = new JButton("Ph");
     private final JButton btnSalir = new JButtonHover("recursos/salir-hover.png","recursos/Salir.png");
     private final Color colorFondo = new Color(240, 240, 240);
-    private final Color colorBotones = new Color(237, 204, 223); //Color original de la gama de colores
+    private final Color colorBotones = new Color(237, 204, 223); //Color original de la gama de colores, usado en LeftPanel(v1)
     private int ancho = 0;
     
     
@@ -160,7 +160,7 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
     @Override
     public Dimension getPreferredSize() {
         Dimension parentSize = getParent().getSize();
-        int width = (int) (parentSize.width * 0.06); // El 15% del ancho del frame
+        int width = (int) (parentSize.width * 0.07); // El 15% del ancho del frame
         int height = parentSize.height;
         ancho = (int) (parentSize.width * 0.15);
         return new Dimension(width, height);

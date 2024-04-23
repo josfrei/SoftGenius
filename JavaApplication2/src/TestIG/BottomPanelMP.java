@@ -8,6 +8,7 @@ package TestIG;
 import com.toedter.calendar.JCalendar;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,7 @@ import java.util.Calendar;
 import javax.swing.border.Border;
 
 public class BottomPanelMP extends JPanel implements ActionListener {
-    private final Color colorFondo = new Color(220, 220, 245);
+    private final Color colorFondo = new Color(240,240,240); //220, 220, 245
     private final String nombreUA = "Iago";
     private final JLabel lblUsuarioActivo = new JLabel("Sesión iniciada como: " + nombreUA);
     private final JButton botonMostrarCalendario = new JButton(new ImageIcon("clock_icon.png"));
