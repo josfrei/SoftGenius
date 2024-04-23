@@ -30,7 +30,6 @@ import javax.swing.plaf.ColorUIResource;
 public class LeftPanelMPv2 extends JPanel implements ActionListener{
     private final JLabel lblLogo = new JLabel();
     private ImageIcon iconLogo = new ImageIcon("recursos/Pruebalogo.png"); // Añadir logo minimalista
-    
     private final JButton btnVentas = new JButtonHover("recursos/venta-hover2.png","recursos/venta.png");
     private final JButton btnPersonal = new JButtonHover("recursos/Personas-hover2.png","recursos/personal.png");
     private final JButton btnStock = new JButtonHover("recursos/Stock-hover2.png","recursos/Stock.png");
@@ -40,10 +39,12 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
     private final Color colorFondo = new Color(240, 240, 240);
     private final Color colorBotones = new Color(237, 204, 223); //Color original de la gama de colores, usado en LeftPanel(v1)
     private int ancho = 0;
+    private PanelCentral panelCentral;
     
     
     //Constructor
-    public LeftPanelMPv2() throws IOException{
+    public LeftPanelMPv2(PanelCentral panelCentral) throws IOException{
+        this.panelCentral = panelCentral;
         style();
         initComp();
         setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));       
@@ -219,24 +220,26 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == btnSalir){
-        //Lógica para salir del programa, cerrar sesión, ¿volver a menu principal?
-        System.exit(0);
-        
+            //Lógica para salir del programa, cerrar sesión, ¿volver a menu principal?
+            System.exit(0);
         }
         if(e.getSource() == btnVentas){
-        //Lógica para mostrar ventas en el futuro panel central
+            //Lógica para mostrar ventas en el futuro panel central
+            panelCentral.setOpcion(1);
+            panelCentral.repaint();
+            requestFocus();
         }
         if(e.getSource() == btnPersonal){
-        
+            panelCentral.setOpcion(2);
+            panelCentral.repaint();
+            requestFocus();
         }
         if(e.getSource() == btnStock){
-        
+            panelCentral.setOpcion(3);
+            panelCentral.repaint();
+            requestFocus();
         }
-        
-        
-        
-        
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 }
 

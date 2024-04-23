@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class PanelCentral extends JPanel {
-    private final JPanel panelCentralPrincipal;
+    private JPanel panelCentralPrincipal;
     private final JPanel esquinaTopLeft = new JPanel();
     private final JPanel esquinaBotLeft = new JPanel();
     private final JPanel panelCentral_Top = new JPanel();
@@ -27,7 +27,6 @@ public class PanelCentral extends JPanel {
         setPanelBottom();
         GBC();
         ajustarColorBordes();
-        
         setVisible(true);
     }
     // Este método añade otros paneles si es necesario
@@ -71,7 +70,7 @@ public class PanelCentral extends JPanel {
         // Panel Central
         gbc.gridy=1;
         gbc.weighty=0.8;
-        this.add(panelCentralPrincipal, gbc); 
+        this.add(panelCentralPrincipal, gbc); panelCentralPrincipal.setBackground(Color.red);
         
         // Panel inferior
         gbc.gridy=2;
@@ -146,8 +145,19 @@ public class PanelCentral extends JPanel {
         setPanelesBorde();
         setColorBorde(colorBordeP_Central);}
     
-    public void setOpcion(int opcionElegida){
-        opcion = opcionElegida;
-    }
+    public void setOpcion(int opcionElegida) {
+    this.remove(panelCentralPrincipal);
+    opcion = opcionElegida;
+    panelCentralPrincipal = new PanelCentralPrincipal(opcion);
+
+    // Add the panelCentralPrincipal to the PanelCentral component
+    this.add(panelCentralPrincipal, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.8, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+
+    ajustarColorBordes();
+    setVisible(true);
+    this.revalidate();
+    this.repaint();
+}
+    
 }
 

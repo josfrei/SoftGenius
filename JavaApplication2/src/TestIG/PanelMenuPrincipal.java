@@ -26,9 +26,9 @@ public class PanelMenuPrincipal extends JPanel {
 
      public PanelMenuPrincipal() throws IOException{
         panelAuxiliar = new JPanel(); //Quedará por debajo del MP, como una capa
-        leftPanelMP = new LeftPanelMPv2();
         bottomPanelMP = new BottomPanelMP();
         panelCentral = new PanelCentral();
+        leftPanelMP = new LeftPanelMPv2(panelCentral);
         Style();
         setLayout(new BorderLayout());
         

@@ -35,6 +35,9 @@ public class PanelCentralPrincipal extends JPanel {
 
     // Add sub-panels based on the provided option
     private void addSubPanels(int opcion) {
+        removeAll();
+        revalidate();
+        repaint();
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH; 
         gbc.anchor= GridBagConstraints.CENTER;
@@ -44,16 +47,20 @@ public class PanelCentralPrincipal extends JPanel {
         gbc.weighty = 1.0; // Occupy all available vertical space
         switch (opcion) {
             case 0:
-                PCVentas();
-                add(PC_Ventas, gbc);
-                
+                // Placeholder for future implementation
+                add(placeholder1, gbc);
                 break;
             case 1:
-                add(PC_Personal);
-                
+                PCVentas();
+                add(PC_Ventas, gbc);
                 break;
             case 2:
-                add(PC_Stock);
+                PCPersonal();
+                add(PC_Personal, gbc);
+                break;
+            case 3:
+                PCStock();
+                add(PC_Stock, gbc);
                 // Implement logic for PC_Stock panel
                 break;
             default:
@@ -81,5 +88,39 @@ public class PanelCentralPrincipal extends JPanel {
         PC_Ventas.setLayout(new BorderLayout());
         PC_Ventas.add(ventas1, BorderLayout.CENTER);
     }
+     private void PCPersonal(){
+     this.setBackground(Color.BLACK);
+        JTabbedPane personal1 = new JTabbedPane();
+
+
+        // Add components to the JTabbedPanes
+        personal1.addTab("Personal 1", new JPanel());
+        personal1.addTab("Personal 2", new JPanel());
+    
+        // Agregar contenido a la segunda pestaña --> Aquí agregamos los paneles generados por Adrián
+        JLabel label1 = new JLabel("Contenido de la pestaña 1");
+        JLabel label2 = new JLabel("Contenido de la pestaña 2");
+        personal1.setComponentAt(0, label1);
+        personal1.setComponentAt(1, label2);
+        // Add JTabbedPanes to the PC_Ventas panel
+        PC_Personal.setLayout(new BorderLayout());
+        PC_Personal.add(personal1, BorderLayout.CENTER);}
+     private void PCStock(){
+     this.setBackground(Color.BLACK);
+        JTabbedPane Stock1 = new JTabbedPane();
+
+
+        // Add components to the JTabbedPanes
+        Stock1.addTab("Stock 1", new JPanel());
+        Stock1.addTab("Stock 2", new JPanel());
+    
+        // Agregar contenido a la segunda pestaña --> Aquí agregamos los paneles generados por Adrián
+        JLabel label1 = new JLabel("Contenido de la pestaña 1");
+        JLabel label2 = new JLabel("Contenido de la pestaña 2");
+        Stock1.setComponentAt(0, label1);
+        Stock1.setComponentAt(1, label2);
+        // Add JTabbedPanes to the PC_Ventas panel
+        PC_Stock.setLayout(new BorderLayout());
+        PC_Stock.add(Stock1, BorderLayout.CENTER);}       
 }
 
