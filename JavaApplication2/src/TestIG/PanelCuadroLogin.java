@@ -1,6 +1,6 @@
-
 package TestIG;
 
+import Idioma.Idioma;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -8,6 +8,12 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -24,13 +30,16 @@ import javax.swing.border.Border;
  *
  * @author Iago
  */
-public class PanelCuadroLogin extends JPanel implements ActionListener{
+public class PanelCuadroLogin extends JPanel implements ActionListener {
+
     private final JLabel lblTitulo = new JLabel("Inicio de Sesión");
     private final JLabel lblUsuario = new JLabel("Usuario:");
     private final JLabel lblContrasenia = new JLabel("Contraseña:");
     private final JTextField tfUsuario = new JTextField(20);
     private final JPasswordField pfContrasenia = new JPasswordField(20);
     private final JButton btnLogin = new JButton("Iniciar Sesión");
+
+    private Connection conexionBBDD;
 
     @SuppressWarnings("LeakingThisInConstructor")
     public PanelCuadroLogin() {
@@ -59,14 +68,27 @@ public class PanelCuadroLogin extends JPanel implements ActionListener{
         gbc.gridy++;
         gbc.anchor = GridBagConstraints.CENTER;
         add(btnLogin, gbc);
+
         btnLogin.addActionListener(this);
         // Agregar borde al panel
         Border borde = BorderFactory.createLineBorder(Color.GRAY); // Borde gris fino
         setBorder(BorderFactory.createCompoundBorder(borde, BorderFactory.createEmptyBorder(10, 10, 10, 10))); // Agrega borde con márgenes
-        
+        gbc.gridy++;
+        gbc.anchor = GridBagConstraints.CENTER;
+
         // Estilos
         estilizarComponentes();
+
+        try {
+            conexionBBDD = ConexionBD.obtenerConexion("bbdd_config_softgenius");
+            idiomaActual = obtenerIdiomaActual();
+            actualizarIdioma(idiomaActual);
+        } catch (SQLException ex) {
+            // Manejar la excepción adecuadamente
+            ex.printStackTrace();
+        }
     }
+
     // Estilos para componentes
     private void estilizarComponentes() {
         Font tituloFont = new Font("Arial", Font.BOLD, 24);
@@ -93,7 +115,7 @@ public class PanelCuadroLogin extends JPanel implements ActionListener{
             try {
                 // Obtén el JFrame padre del PanelLogin
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-                
+
                 // Crea y muestra el panelMenuPrincipal
                 JPanel panelMP = new PanelMenuPrincipal();
                 frame.getContentPane().removeAll(); // Limpia todos los componentes actuales del JFrame
@@ -103,7 +125,28 @@ public class PanelCuadroLogin extends JPanel implements ActionListener{
                 Logger.getLogger(PanelCuadroLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
     }
-    
-    
+
+    //************************************************************************//
+    // Cambio de Idioma
+    //************************************************************************//
+    private String idiomaActual = "Spanish";
+
+    private void actualizarIdioma(String idioma) {
+        // Cargar el archivo de propiedades correspondiente al idioma
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Idioma." + idioma);
+
+        // Actualizar los textos de los componentes con los valores del archivo de propiedades
+        lblTitulo.setText(resourceBundle.getString("lblTitulo"));
+        lblUsuario.setText(resourceBundle.getString("lblUsuario"));
+        lblContrasenia.setText(resourceBundle.getString("lblContrasenia"));
+        btnLogin.setText(resourceBundle.getString("btnLogin"));
+    }
+
+    public String obtenerIdiomaActual() throws SQLException {
+        Idiomas idiomas = new Idiomas(conexionBBDD);
+        return idiomas.obtenerIdiomaActual();
+    }
+
 }
