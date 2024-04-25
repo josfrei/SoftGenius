@@ -4,6 +4,9 @@
  */
 package TestIG;
 
+// Importamos la tabla Empleados
+import tablas.tablaEmpleados;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -27,6 +30,9 @@ public class PanelCentralPrincipal extends JPanel {
     private JPanel PC_VentasTab1 = new JPanel();// Cambiar al panel de la clase de adrián ej: new tablaPanelVentas1();
 
     private Connection conexionBBDD;
+
+// Creamos una instancia del panel tablaEmpleados
+    tablaEmpleados panelTablaEmpleados = new tablaEmpleados();
 
     public PanelCentralPrincipal(int opcion) {
         Style();
@@ -99,7 +105,7 @@ public class PanelCentralPrincipal extends JPanel {
         JLabel label2 = new JLabel("Contenido de la pestaña 2");
         ventas1.setComponentAt(0, label1);
         ventas1.setComponentAt(1, label2);
-        // Add JTabbedPanes to the PC_Ventas panel
+         //Add JTabbedPanes to the PC_Ventas panel
         PC_Ventas.setLayout(new BorderLayout());
         PC_Ventas.add(ventas1, BorderLayout.CENTER);
     }
@@ -109,13 +115,13 @@ public class PanelCentralPrincipal extends JPanel {
         JTabbedPane personal1 = new JTabbedPane();
 
         // Add components to the JTabbedPanes
-        personal1.addTab("Personal 1", new JPanel());
+        personal1.addTab("Personal 1", panelTablaEmpleados);
         personal1.addTab("Personal 2", new JPanel());
 
         // Agregar contenido a la segunda pestaña --> Aquí agregamos los paneles generados por Adrián
-        JLabel label1 = new JLabel("Contenido de la pestaña 1");
+        //JLabel label1 = new JLabel("Contenido de la pestaña 1");
         JLabel label2 = new JLabel("Contenido de la pestaña 2");
-        personal1.setComponentAt(0, label1);
+        //personal1.setComponentAt(0, label1);
         personal1.setComponentAt(1, label2);
         // Add JTabbedPanes to the PC_Ventas panel
         PC_Personal.setLayout(new BorderLayout());
