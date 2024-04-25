@@ -33,7 +33,7 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
     private final JButton btnVentas = new JButtonHover("recursos/venta-hover2.png","recursos/venta.png");
     private final JButton btnPersonal = new JButtonHover("recursos/Personas-hover2.png","recursos/personal.png");
     private final JButton btnStock = new JButtonHover("recursos/Stock-hover2.png","recursos/Stock.png");
-    private final JButton btnOtroBoton = new JButton("Ph");
+    private final JButton  btnOtroBoton = new JButton("Ph");
     private final JButton btnIniciar = new JButton("Ph");
     private final JButton btnSalir = new JButtonHover("recursos/salir-hover.png","recursos/Salir.png");
     private final Color colorFondo = new Color(240, 240, 240);
