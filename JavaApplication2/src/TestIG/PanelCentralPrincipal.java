@@ -8,11 +8,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class PanelCentralPrincipal extends JPanel {
+
     private JPanel PC_Ventas = new JPanel();
     private JPanel PC_Personal = new JPanel();
     private JPanel PC_Stock = new JPanel();
@@ -20,16 +26,26 @@ public class PanelCentralPrincipal extends JPanel {
     private JPanel placeholder2 = new JPanel();
     private JPanel PC_VentasTab1 = new JPanel();// Cambiar al panel de la clase de adrián ej: new tablaPanelVentas1();
 
+    private Connection conexionBBDD;
+
     public PanelCentralPrincipal(int opcion) {
         Style();
         addSubPanels(opcion);
+        try {
+            conexionBBDD = ConexionBD.obtenerConexion("bbdd_config_softgenius");
+            idiomaActual = obtenerIdiomaActual();
+            actualizarIdioma(idiomaActual);
+        } catch (SQLException ex) {
+            // Manejar la excepción adecuadamente
+            ex.printStackTrace();
+        }
     }
 
     // Estilos para el panel central principal
     private void Style() {
         this.setBackground(Color.red);
         setLayout(new GridBagLayout());
-        
+
         setVisible(true);
     }
 
@@ -39,8 +55,8 @@ public class PanelCentralPrincipal extends JPanel {
         revalidate();
         repaint();
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH; 
-        gbc.anchor= GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0; // Occupy all available horizontal space
@@ -70,15 +86,14 @@ public class PanelCentralPrincipal extends JPanel {
     }
 
     // Logic for the PC_Ventas panel
-     private void PCVentas() {
+    private void PCVentas() {
         this.setBackground(Color.BLACK);
         JTabbedPane ventas1 = new JTabbedPane();
-
 
         // Add components to the JTabbedPanes
         ventas1.addTab("Ventas 1", new JPanel());
         ventas1.addTab("Ventas 2", new JPanel());
-    
+
         // Agregar contenido a la segunda pestaña --> Aquí agregamos los paneles generados por Adrián
         JLabel label1 = new JLabel("Contenido de la pestaña 1");
         JLabel label2 = new JLabel("Contenido de la pestaña 2");
@@ -88,15 +103,15 @@ public class PanelCentralPrincipal extends JPanel {
         PC_Ventas.setLayout(new BorderLayout());
         PC_Ventas.add(ventas1, BorderLayout.CENTER);
     }
-     private void PCPersonal(){
-     this.setBackground(Color.BLACK);
-        JTabbedPane personal1 = new JTabbedPane();
 
+    private void PCPersonal() {
+        this.setBackground(Color.BLACK);
+        JTabbedPane personal1 = new JTabbedPane();
 
         // Add components to the JTabbedPanes
         personal1.addTab("Personal 1", new JPanel());
         personal1.addTab("Personal 2", new JPanel());
-    
+
         // Agregar contenido a la segunda pestaña --> Aquí agregamos los paneles generados por Adrián
         JLabel label1 = new JLabel("Contenido de la pestaña 1");
         JLabel label2 = new JLabel("Contenido de la pestaña 2");
@@ -104,16 +119,17 @@ public class PanelCentralPrincipal extends JPanel {
         personal1.setComponentAt(1, label2);
         // Add JTabbedPanes to the PC_Ventas panel
         PC_Personal.setLayout(new BorderLayout());
-        PC_Personal.add(personal1, BorderLayout.CENTER);}
-     private void PCStock(){
-     this.setBackground(Color.BLACK);
-        JTabbedPane Stock1 = new JTabbedPane();
+        PC_Personal.add(personal1, BorderLayout.CENTER);
+    }
 
+    private void PCStock() {
+        this.setBackground(Color.BLACK);
+        JTabbedPane Stock1 = new JTabbedPane();
 
         // Add components to the JTabbedPanes
         Stock1.addTab("Stock 1", new JPanel());
         Stock1.addTab("Stock 2", new JPanel());
-    
+
         // Agregar contenido a la segunda pestaña --> Aquí agregamos los paneles generados por Adrián
         JLabel label1 = new JLabel("Contenido de la pestaña 1");
         JLabel label2 = new JLabel("Contenido de la pestaña 2");
@@ -121,6 +137,25 @@ public class PanelCentralPrincipal extends JPanel {
         Stock1.setComponentAt(1, label2);
         // Add JTabbedPanes to the PC_Ventas panel
         PC_Stock.setLayout(new BorderLayout());
-        PC_Stock.add(Stock1, BorderLayout.CENTER);}       
-}
+        PC_Stock.add(Stock1, BorderLayout.CENTER);
+    }
 
+    //************************************************************************//
+    // Cambio de Idioma
+    //************************************************************************//
+    private String idiomaActual = "Spanish";
+
+    private void actualizarIdioma(String idioma) {
+        // Cargar el archivo de propiedades correspondiente al idioma
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Idioma." + idioma);
+
+        // Indicamos lo que cambiamos y referenciamos
+        //XXXXXXXX.setText(resourceBundle.getString("label1"));
+    }
+
+    public String obtenerIdiomaActual() throws SQLException {
+        Idiomas idiomas = new Idiomas(conexionBBDD);
+        return idiomas.obtenerIdiomaActual();
+    }
+
+}
