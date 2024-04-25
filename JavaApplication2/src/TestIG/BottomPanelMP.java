@@ -4,28 +4,43 @@ package TestIG;
  *
  * @author Iago
  */
-
 import com.toedter.calendar.JCalendar;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.ResourceBundle;
 import javax.swing.border.Border;
 
 public class BottomPanelMP extends JPanel implements ActionListener {
-    private final Color colorFondo = new Color(240,240,240); //220, 220, 245
+
+    private final Color colorFondo = new Color(240, 240, 240); //220, 220, 245
     private final String nombreUA = "Iago";
-    private final JLabel lblUsuarioActivo = new JLabel("Sesión iniciada como: " + nombreUA);
+    private final JLabel lblUsuarioActivo = new JLabel();
     private final JButton botonMostrarCalendario = new JButton(new ImageIcon("clock_icon.png"));
     private final JLabel labelCalendario = new JLabel();
+
+    private Connection conexionBBDD;
 
     public BottomPanelMP() {
         style();
         initComp();
         setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));
+        try {
+            conexionBBDD = ConexionBD.obtenerConexion("bbdd_config_softgenius");
+            idiomaActual = obtenerIdiomaActual();
+            actualizarIdioma(idiomaActual);
+        } catch (SQLException ex) {
+            // Manejar la excepción adecuadamente
+            ex.printStackTrace();
+        }
     }
 
     private void style() {
@@ -162,4 +177,27 @@ public class BottomPanelMP extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // Lógica tras pulsar el calendario
     }
+    //************************************************************************//
+    // Cambio de Idioma
+    //************************************************************************//
+    private String idiomaActual = "Spanish";
+
+    private void actualizarIdioma(String idioma) {
+        // Cargar el archivo de propiedades correspondiente al idioma
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Idioma." + idioma);
+// Obtener el texto de "Sesión iniciada como:" del archivo de propiedades
+        String textoSesionIniciadaComo = resourceBundle.getString("lblUsuarioActivo");
+
+        // Concatenar el nombre de usuario actual al texto obtenido
+        String textoTraducido = textoSesionIniciadaComo + nombreUA;
+
+        // Establecer el texto traducido en el JLabel
+        lblUsuarioActivo.setText(textoTraducido);
+    }
+
+    public String obtenerIdiomaActual() throws SQLException {
+        Idiomas idiomas = new Idiomas(conexionBBDD);
+        return idiomas.obtenerIdiomaActual();
+    }
+
 }
