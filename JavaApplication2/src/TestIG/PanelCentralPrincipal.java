@@ -11,16 +11,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-public class PanelCentralPrincipal extends JPanel {
+public class PanelCentralPrincipal extends JPanel implements ActionListener {
 
     private JPanel PC_Ventas = new JPanel();
     private JPanel PC_Personal = new JPanel();
@@ -28,6 +31,7 @@ public class PanelCentralPrincipal extends JPanel {
     private JPanel placeholder1 = new JPanel();
     private JPanel placeholder2 = new JPanel();
     private JPanel PC_VentasTab1 = new JPanel();// Cambiar al panel de la clase de adrián ej: new tablaPanelVentas1();
+    private JButton btnCambiarIdioma;
 
     private Connection conexionBBDD;
 
@@ -105,7 +109,7 @@ public class PanelCentralPrincipal extends JPanel {
         JLabel label2 = new JLabel("Contenido de la pestaña 2");
         ventas1.setComponentAt(0, label1);
         ventas1.setComponentAt(1, label2);
-         //Add JTabbedPanes to the PC_Ventas panel
+        //Add JTabbedPanes to the PC_Ventas panel
         PC_Ventas.setLayout(new BorderLayout());
         PC_Ventas.add(ventas1, BorderLayout.CENTER);
     }
@@ -136,16 +140,30 @@ public class PanelCentralPrincipal extends JPanel {
         Stock1.addTab("Stock 1", new JPanel());
         Stock1.addTab("Stock 2", new JPanel());
 
+        //Creamos panel para dentro del stock1, index 0
+        JPanel panel = new JPanel();
+
         // Agregar contenido a la segunda pestaña --> Aquí agregamos los paneles generados por Adrián
-        JLabel label1 = new JLabel("Contenido de la pestaña 1");
+        btnCambiarIdioma = new JButton("Cambiar idioma");
+        btnCambiarIdioma.addActionListener((ActionListener) this);
         JLabel label2 = new JLabel("Contenido de la pestaña 2");
-        Stock1.setComponentAt(0, label1);
+
+        //Añadimos el botón al panel
+        panel.add(btnCambiarIdioma);
+
+        Stock1.setComponentAt(0, panel);
         Stock1.setComponentAt(1, label2);
         // Add JTabbedPanes to the PC_Ventas panel
         PC_Stock.setLayout(new BorderLayout());
         PC_Stock.add(Stock1, BorderLayout.CENTER);
     }
 
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnCambiarIdioma) {
+            
+            //Lógica para cambiar el idioma e insertarlo en la bbdd
+        }
+    }
     //************************************************************************//
     // Cambio de Idioma
     //************************************************************************//
