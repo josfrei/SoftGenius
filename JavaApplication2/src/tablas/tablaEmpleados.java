@@ -316,7 +316,7 @@ public class tablaEmpleados extends JPanel {
 
         // Set auto resize mode and preferred size for scroll pane
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(totalWidth, 300)); // Ajusta el alto según sea necesario
+        scrollPane.setPreferredSize(new Dimension(totalWidth, 600)); // Ajusta el alto según sea necesario
         scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -634,7 +634,7 @@ public class tablaEmpleados extends JPanel {
             Object newValue = JOptionPane.showInputDialog(this, "Nuevo valor para " + columnName + ":");
             if (newValue != null) {
                 int id = (int) table.getValueAt(selectedRow, 0);
-                String updateQuery = "UPDATE clientes_informáticos SET " + columnName + " = ? WHERE ID_Cliente = ?";
+                String updateQuery = "UPDATE empleado SET " + columnName + " = ? WHERE EmpleadoID = ?";
                 try {
                     PreparedStatement pstmt = conn.prepareStatement(updateQuery);
                     pstmt.setObject(1, newValue);
