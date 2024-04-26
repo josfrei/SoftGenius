@@ -401,68 +401,7 @@ public class tablaEmpleados extends JPanel {
         sorter.setRowFilter(null);
     }
 
-    /**
-     * Método para la ventana de añadir persona.
-     */
-    /*private void showAddPersonDialog() {
-        // Display dialog for adding a new person
-        JDialog dialog = new JDialog(this, "Añadir persona", true);
-        dialog.setLayout(new GridLayout(0, 2));
 
-        // Create labels and text fields for input
-        JLabel lblFirstName = new JLabel("Nombre:");
-        JTextField txtFirstName = new JTextField();
-        JLabel lblLastName = new JLabel("Apellido:");
-        JTextField txtLastName = new JTextField();
-        JLabel lblDni = new JLabel("DNI:");
-        JTextField txtDni = new JTextField();
-        JLabel lblDepartment = new JLabel("Department:");
-        JTextField txtDepartment = new JTextField();
-
-        // Create confirm button and add action listener
-        JButton btnConfirm = new JButton("Add");
-        btnConfirm.addActionListener((ActionEvent e) -> {
-            String firstName1 = txtFirstName.getText();
-            String lastName1 = txtLastName.getText();
-            String dni = txtDni.getText();
-            String department1 = txtDepartment.getText();
-
-            addPersonToTable(firstName1, lastName1, dni, department1);
-            dialog.dispose();
-        });
-
-        // Add labels, text fields, and confirm button to dialog
-        dialog.add(lblFirstName);
-        dialog.add(txtFirstName);
-        dialog.add(lblLastName);
-        dialog.add(txtLastName);
-        dialog.add(lblDni);
-        dialog.add(txtDni);
-        dialog.add(lblDepartment);
-        dialog.add(txtDepartment);
-        dialog.add(btnConfirm);
-
-        // Set dialog size and display it
-        dialog.setSize(500, 300);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }
-
-    private void addPersonToTable(String firstName, String lastName, String dni, String department) {
-        // Validate input fields
-        if (!validateInput(firstName, lastName, dni, department)) {
-            // Show error message if input validation fails
-            JOptionPane.showMessageDialog(this, "Please fill in all the required fields.", "Input Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Add new row to the table
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.addRow(new Object[]{null, firstName, lastName, dni, department});
-
-        // Call stored procedure to add employee to database
-        callAddEmployeeProcedure(firstName, lastName, dni, department);
-    }*/
     private void createNavigationButtons() {
         // Create navigation buttons for paging
         btnNext = new JButton("Siguiente");
@@ -674,18 +613,6 @@ public class tablaEmpleados extends JPanel {
         }
     }
 
-    private void callDeleteEmployeeProcedure(int employeeID) {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbdd_empleados_softgenius", "root", "")) {
-            String sql = "CALL DeleteEmployee(?)";
-            try (CallableStatement statement = conn.prepareCall(sql)) {
-                statement.setInt(1, employeeID);
-                statement.execute();
-                System.out.println("Empleado con ID " + employeeID + " ha sido eliminado.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void extractRecord() {
         int selectedRow = table.getSelectedRow();
