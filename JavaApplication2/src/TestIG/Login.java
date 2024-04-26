@@ -17,7 +17,7 @@ public class Login extends JFrame {
         añadirIcono();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setBackground(Color.BLACK);
-        this.setSize(1366, 768); //Se modifica la resolución a la estándar de laptops low-cost
+        this.setSize(1366, 800); //Se modifica la resolución a la estándar de laptops low-cost
         this.setLocationRelativeTo(null);
         this.setResizable(true);
 
