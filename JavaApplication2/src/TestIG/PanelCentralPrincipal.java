@@ -181,5 +181,4 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
         Idiomas idiomas = new Idiomas(conexionBBDD);
         return idiomas.obtenerIdiomaActual();
     }
-
 }
