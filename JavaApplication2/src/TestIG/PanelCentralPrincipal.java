@@ -30,7 +30,7 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
     private JPanel PC_Stock = new JPanel();
     private JPanel placeholder1 = new JPanel();
     private JPanel placeholder2 = new JPanel();
-    private JPanel PC_VentasTab1 = new JPanel();// Cambiar al panel de la clase de adrián ej: new tablaPanelVentas1();
+    private JPanel PC_VentasTab1 = new JPanel();
     private JButton btnCambiarIdioma;
 
     private Connection conexionBBDD;
