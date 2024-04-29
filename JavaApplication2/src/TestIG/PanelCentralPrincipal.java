@@ -5,6 +5,7 @@
 package TestIG;
 
 // Importamos la tabla Empleados
+import Idioma.Idiomas;
 import tablas.tablaEmpleados;
 
 import java.awt.BorderLayout;
