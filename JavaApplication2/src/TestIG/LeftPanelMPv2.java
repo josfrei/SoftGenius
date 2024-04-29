@@ -1,5 +1,6 @@
 package TestIG;
 
+import Calendario.Calendario;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,12 +15,18 @@ import java.awt.Insets;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
@@ -42,6 +49,8 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
     private final Color colorBotones = new Color(237, 204, 223); //Color original de la gama de colores, usado en LeftPanel(v1)
     private int ancho = 0;
     private PanelCentral panelCentral;
+    private final JLabel lblSesionActiva = new JLabel("Sesión activa");
+    private final JLabel lblCalendario= new JLabel();
     
     
     //Constructor
@@ -87,6 +96,7 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
         JPanel buttonPanel = createButtonPanel();
         this.add(buttonPanel, gbcButtons);
         
+        /*Antiguo boton salir
         GridBagConstraints gbcSalir = new GridBagConstraints();
         gbcSalir.gridx = 0;
         gbcSalir.gridy = 2;
@@ -94,7 +104,26 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
         gbcSalir.anchor = GridBagConstraints.PAGE_END;
         gbcSalir.fill = GridBagConstraints.HORIZONTAL;
         gbcSalir.insets = new Insets(10, 15, 20, 15);
-        this.add(btnSalir, gbcSalir);
+        this.add(btnSalir, gbcSalir);*/
+        
+        // Crear GridBagConstraints para el panel de botones
+        GridBagConstraints gbcLabels = new GridBagConstraints();
+        gbcLabels.gridx = 0;
+        gbcLabels.gridy = 2;
+        gbcLabels.weightx = 1.0;
+        gbcLabels.weighty = 0.15;
+        gbcLabels.anchor = GridBagConstraints.PAGE_END;
+        gbcLabels.fill = GridBagConstraints.BOTH;
+        gbcLabels.insets = new Insets(0, 10, 10, 10);
+        JPanel createLabelPanel = createLabelPanel();
+        this.add(createLabelPanel, gbcLabels);
+        
+        lblCalendario.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            mostrarCalendario(); // Call the method to show the calendar dialog
+        }
+    });
         
     }
     
@@ -181,9 +210,6 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
             e.printStackTrace(); // Falta manejar excepcion
         }
     }   
-    
-    //Métodos para asignar las imágenes a los botones (Deprecated) Remove later
-    //Ahora usamos la clase JButtonHover e iniciamos los botones directamente
     private void imagenesBotones(){
         ImagenBotonVentas();
         ImagenBotonPersonal();
@@ -220,6 +246,38 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
         } catch (IOException e) {
         }
     }
+    // Métodos auxiliares para el funcionamiento del calendario
+    private JPanel createLabelPanel() {
+        JPanel panel = new JPanel(new GridLayout(2, 1, 10, 0));
+        panel.setBackground(colorFondo); 
+        panel.add(lblSesionActiva);
+        panel.add(lblCalendario);
+        return panel;
+    }
+    private void actualizarHoraFecha() {
+            Calendar calendario = Calendar.getInstance();
+            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+
+            String hora = formatoHora.format(calendario.getTime());
+            String fecha = formatoFecha.format(calendario.getTime());
+            
+            lblCalendario.setText("<html>" + fecha + "<br>" + hora + "</html>");
+    }
+    private void mostrarCalendario() {
+    // Find the top-level container (usually a JFrame)
+    Container parentContainer = this.getParent();
+    while (!(parentContainer instanceof JFrame) && parentContainer != null) {
+        parentContainer = parentContainer.getParent();
+    }
+
+    if (parentContainer instanceof JFrame) {
+        Calendario dialog = new Calendario((JFrame) parentContainer);
+        dialog.setVisible(true);
+    } else {
+        System.err.println("Error: Unable to find a JFrame ancestor.");
+    }
+}
 
     @Override
     public void actionPerformed(ActionEvent e) {
