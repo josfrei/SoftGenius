@@ -1,5 +1,6 @@
 package TestIG;
 
+import Idioma.Idiomas;
 import Idioma.Idioma;
 import java.awt.Color;
 import java.awt.Font;

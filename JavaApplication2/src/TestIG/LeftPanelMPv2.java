@@ -20,6 +20,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPopupMenu;
+import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
@@ -48,7 +49,9 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
         this.panelCentral = panelCentral;
         style();
         initComp();
-        setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));       
+        setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));
+        Timer timer = new Timer(1000, e -> actualizarHoraFecha());
+        timer.start();
     }
     //Estilos que aplican al panel
     private void style() {

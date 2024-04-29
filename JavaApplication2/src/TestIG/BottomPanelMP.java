@@ -4,6 +4,7 @@ package TestIG;
  *
  * @author Iago
  */
+import Idioma.Idiomas;
 import com.toedter.calendar.JCalendar;
 import javax.swing.*;
 import java.awt.*;
