@@ -28,7 +28,8 @@ import javax.swing.plaf.ColorUIResource;
     Botones con iconos personalizados y 2 botones de acción. */
 
 public class LeftPanelMPv2 extends JPanel implements ActionListener{
-    private final JLabel lblLogo = new JLabel();
+    
+    public final JLabel lblLogo = new JLabel();
     private ImageIcon iconLogo = new ImageIcon("recursos/Pruebalogo.png"); // Añadir logo minimalista
     private final JButton btnVentas = new JButtonHover("recursos/venta-hover2.png","recursos/venta.png");
     private final JButton btnPersonal = new JButtonHover("recursos/Personas-hover2.png","recursos/personal.png");
