@@ -4,6 +4,7 @@
  */
 package tablas;
 
+import TestIG.ConexionBD;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -114,6 +115,8 @@ public class tablaEmpleados extends JPanel {
         searchField.addActionListener(e -> filterTable());
     }
 
+    private Connection conexionBBDD;
+
     /**
      * Contador de registros que coincide con la búsqueda
      *
@@ -123,9 +126,9 @@ public class tablaEmpleados extends JPanel {
     private int getTotalMatchingRecords(String searchText, String objetoABuscar) {
         // Recuperar el total de registros coincidentes
         int totalRecords = 0;
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbdd_empleados_softgenius", "root", "")) {
+        try (Connection conexionBBDD = ConexionBD.obtenerConexion("bbdd_empleados_softgenius")) {
             String sql = "SELECT COUNT(*) AS total FROM empleado WHERE " + objetoABuscar + " LIKE ?";
-            try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            try (PreparedStatement statement = conexionBBDD.prepareStatement(sql)) {
                 statement.setString(1, "%" + searchText + "%");
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
@@ -146,9 +149,9 @@ public class tablaEmpleados extends JPanel {
      */
     private void showAllMatchingRecords(int totalRecords, String objetoABuscar) {
         // Show all matching records based on search text
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbdd_empleados_softgenius", "root", "")) {
+        try (Connection conexionBBDD = ConexionBD.obtenerConexion("bbdd_empleados_softgenius")) {
             String sql = "SELECT * FROM empleado WHERE " + objetoABuscar + " LIKE ?";
-            try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            try (PreparedStatement statement = conexionBBDD.prepareStatement(sql)) {
                 statement.setString(1, "%" + searchField.getText().trim() + "%");
                 try (ResultSet resultSet = statement.executeQuery()) {
                     DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -401,7 +404,6 @@ public class tablaEmpleados extends JPanel {
         sorter.setRowFilter(null);
     }
 
-
     private void createNavigationButtons() {
         // Create navigation buttons for paging
         btnNext = new JButton("Siguiente");
@@ -437,9 +439,9 @@ public class tablaEmpleados extends JPanel {
     private int getTotalRecords() {
         // Get the total number of records in the database
         int totalRecords = 0;
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbdd_empleados_softgenius", "root", "")) {
+        try (Connection conexionBBDD = ConexionBD.obtenerConexion("bbdd_empleados_softgenius")) {
             String sql = "SELECT COUNT(*) AS total FROM empleado";
-            try (PreparedStatement statement = conn.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
+            try (PreparedStatement statement = conexionBBDD.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     totalRecords = resultSet.getInt("total");
                 }
@@ -476,9 +478,9 @@ public class tablaEmpleados extends JPanel {
     private void showData() {
         // Display the data in the table
         int offset = (currentPage - 1) * recordsPerPage;
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbdd_empleados_softgenius", "root", "")) {
+        try (Connection conexionBBDD = ConexionBD.obtenerConexion("bbdd_empleados_softgenius")) {
             String sql = "SELECT * FROM empleado LIMIT ? OFFSET ?";
-            try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            try (PreparedStatement statement = conexionBBDD.prepareStatement(sql)) {
                 statement.setInt(1, recordsPerPage);
                 statement.setInt(2, offset);
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -503,9 +505,9 @@ public class tablaEmpleados extends JPanel {
 
     private void insertData() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbdd_empleados_softgenius", "root", "");
+            Connection conexionBBDD = ConexionBD.obtenerConexion("bbdd_empleados_softgenius");
             // Obtener los nombres de las columnas de la tabla
-            DatabaseMetaData metaData = conn.getMetaData();
+            DatabaseMetaData metaData = conexionBBDD.getMetaData();
             ResultSet rs = metaData.getColumns(null, null, "empleado", null);
             int columnCount = 0;
             while (rs.next()) {
@@ -546,7 +548,7 @@ public class tablaEmpleados extends JPanel {
                 insertQuery = insertQuery.substring(0, insertQuery.length() - 1); // Eliminar la última coma
                 insertQuery += ")";
 
-                PreparedStatement pstmt = conn.prepareStatement(insertQuery);
+                PreparedStatement pstmt = conexionBBDD.prepareStatement(insertQuery);
                 for (int i = 1; i < columnCount; i++) { // Comenzar desde el segundo campo
                     pstmt.setObject(i, ((JTextField) inputValues[i]).getText());
                 }
@@ -564,7 +566,7 @@ public class tablaEmpleados extends JPanel {
     }
 
     private void modifyRecord() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbdd_empleados_softgenius", "root", "");
+        Connection conexionBBDD = ConexionBD.obtenerConexion("bbdd_empleados_softgenius");
         // Obtener la fila seleccionada
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
@@ -575,7 +577,7 @@ public class tablaEmpleados extends JPanel {
                 int id = (int) table.getValueAt(selectedRow, 0);
                 String updateQuery = "UPDATE empleado SET " + columnName + " = ? WHERE EmpleadoID = ?";
                 try {
-                    PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+                    PreparedStatement pstmt = conexionBBDD.prepareStatement(updateQuery);
                     pstmt.setObject(1, newValue);
                     pstmt.setInt(2, id);
                     pstmt.executeUpdate();
@@ -591,7 +593,7 @@ public class tablaEmpleados extends JPanel {
     }
 
     private void deleteRecord() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbdd_empleados_softgenius", "root", "");
+        Connection conexionBBDD = ConexionBD.obtenerConexion("bbdd_empleados_softgenius");
 
         // Obtener la fila seleccionada
         int selectedRow = table.getSelectedRow();
@@ -600,7 +602,7 @@ public class tablaEmpleados extends JPanel {
             int id = (int) table.getValueAt(selectedRow, 0);
             String deleteQuery = "DELETE FROM empleado WHERE EmpleadoID = ?";
             try {
-                PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+                PreparedStatement pstmt = conexionBBDD.prepareStatement(deleteQuery);
                 pstmt.setInt(1, id);
                 pstmt.executeUpdate();
                 pstmt.close();
@@ -612,7 +614,6 @@ public class tablaEmpleados extends JPanel {
             JOptionPane.showMessageDialog(this, "Selecciona una fila para eliminar.");
         }
     }
-
 
     private void extractRecord() {
         int selectedRow = table.getSelectedRow();
