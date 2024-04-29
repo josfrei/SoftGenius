@@ -12,6 +12,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -29,11 +30,13 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
     private JPanel PC_Ventas = new JPanel();
     private JPanel PC_Personal = new JPanel();
     private JPanel PC_Stock = new JPanel();
-    private JPanel placeholder1 = new JPanel();
+    private JPanel panelBienvenida = new JPanel();
     private JPanel placeholder2 = new JPanel();
     private JPanel PC_VentasTab1 = new JPanel();
     private JButton btnCambiarIdioma;
-
+    private JButton btnFichar = new JButton("Fichar");
+    private JButton btnConfiguracion = new JButton("Configuracion");
+    private JButton btnCerrarSesion = new JButton("Cerrar sesion");
     private Connection conexionBBDD;
 
 // Creamos una instancia del panel tablaEmpleados
@@ -59,7 +62,6 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
 
         setVisible(true);
     }
-
     // Add sub-panels based on the provided option
     private void addSubPanels(int opcion) {
         removeAll();
@@ -74,8 +76,8 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
         gbc.weighty = 1.0; // Occupy all available vertical space
         switch (opcion) {
             case 0:
-                // Placeholder for future implementation
-                add(placeholder1, gbc);
+                panelBienvenida();
+                add(panelBienvenida, gbc);
                 break;
             case 1:
                 PCVentas();
@@ -95,8 +97,35 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
                 break;
         }
     }
+    private void panelBienvenida() {
+      
+        panelBienvenida.setLayout(new GridLayout(4, 3)); // Establece el diseño de la cuadrícula
+        // Bucle para crear y añadir los paneles
+        JPanel panelFichar = null;
+        JPanel panelConfiguracion = null;
+        JPanel panelCerrarSesion = null;
+        for (int i = 0; i < 12; i++) {
+            String nombrePanel = "panel" + i; // Nombre único para cada panel
+            JPanel panel = new JPanel();
+            panel.setName(nombrePanel); // Establece el nombre del panel
+            panel.setBackground(Color.WHITE); // Establece el color de fondo de los paneles (puedes ajustarlo según lo necesites)
+            // Verifica si el índice es 2, 5 o 8 (los paneles 3, 6 y 9)
+            if (i == 2) {
+                panelFichar = panel; // Asigna el panel actual al panel3
+            } else if (i == 5) {
+                panelConfiguracion = panel; // Asigna el panel actual al panel6
+            } else if (i == 8) {
+                panelCerrarSesion = panel; // Asigna el panel actual al panel9
+            }
+            
+            panelBienvenida.add(panel); // Añade el panel al panelBienvenida
+        }
+        
+        panelFichar.add(btnFichar);
+        panelConfiguracion.add(btnConfiguracion);
+        panelCerrarSesion.add(btnCerrarSesion);
+    }
 
-    // Logic for the PC_Ventas panel
     private void PCVentas() {
         this.setBackground(Color.BLACK);
         JTabbedPane ventas1 = new JTabbedPane();
@@ -114,7 +143,6 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
         PC_Ventas.setLayout(new BorderLayout());
         PC_Ventas.add(ventas1, BorderLayout.CENTER);
     }
-
     private void PCPersonal() {
         this.setBackground(Color.BLACK);
         JTabbedPane personal1 = new JTabbedPane();
@@ -132,7 +160,6 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
         PC_Personal.setLayout(new BorderLayout());
         PC_Personal.add(personal1, BorderLayout.CENTER);
     }
-
     private void PCStock() {
         this.setBackground(Color.BLACK);
         JTabbedPane Stock1 = new JTabbedPane();
@@ -158,7 +185,6 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
         PC_Stock.setLayout(new BorderLayout());
         PC_Stock.add(Stock1, BorderLayout.CENTER);
     }
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnCambiarIdioma) {
             
@@ -169,7 +195,6 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
     // Cambio de Idioma
     //************************************************************************//
     private String idiomaActual = "Spanish";
-
     private void actualizarIdioma(String idioma) {
         // Cargar el archivo de propiedades correspondiente al idioma
         ResourceBundle resourceBundle = ResourceBundle.getBundle("Idioma." + idioma);
@@ -177,7 +202,6 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
         // Indicamos lo que cambiamos y referenciamos
         //XXXXXXXX.setText(resourceBundle.getString("label1"));
     }
-
     public String obtenerIdiomaActual() throws SQLException {
         Idiomas idiomas = new Idiomas(conexionBBDD);
         return idiomas.obtenerIdiomaActual();

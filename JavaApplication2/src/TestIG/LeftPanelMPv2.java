@@ -49,7 +49,7 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
     private final Color colorBotones = new Color(237, 204, 223); //Color original de la gama de colores, usado en LeftPanel(v1)
     private int ancho = 0;
     private PanelCentral panelCentral;
-    private final JLabel lblSesionActiva = new JLabel("Sesión activa");
+    private final JLabel lblSesionActiva = new JLabel("Usuario");
     private final JLabel lblCalendario= new JLabel();
     
     
