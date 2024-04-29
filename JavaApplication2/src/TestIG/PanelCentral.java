@@ -1,5 +1,6 @@
 package TestIG;
 
+import Idioma.Idiomas;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.sql.Connection;
