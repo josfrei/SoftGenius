@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 public class PanelMenuPrincipal extends JPanel {
     private final JPanel panelAuxiliar;
     private final LeftPanelMPv2 leftPanelMP;
-    private final BottomPanelMP bottomPanelMP;
+    //private final BottomPanelMP bottomPanelMP;
     private final PanelCentral panelCentral;
     
 
