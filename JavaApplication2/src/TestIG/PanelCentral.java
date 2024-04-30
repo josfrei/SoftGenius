@@ -169,10 +169,18 @@ public class PanelCentral extends JPanel {
         this.remove(panelCentralPrincipal);
         opcion = opcionElegida;
         panelCentralPrincipal = new PanelCentralPrincipal(opcion);
-
+        
         // Add the panelCentralPrincipal to the PanelCentral component
         this.add(panelCentralPrincipal, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.8, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-
+        
+         // Ajustar la visibilidad de los botones según el valor de opcion
+        if (opcion == 0) {
+            btnMenu.setVisible(false);
+            btnAbrir.setVisible(false);
+        } else {
+            btnMenu.setVisible(true);
+            btnAbrir.setVisible(true);
+        }
         ajustarColorBordes();
         setVisible(true);
         this.revalidate();
@@ -183,7 +191,9 @@ public class PanelCentral extends JPanel {
     // Cambio de Idioma
     //************************************************************************//
     private String idiomaActual = "Spanish";
-
+    public int getOpcion(){
+        return opcion;
+    }
     private void actualizarIdioma(String idioma) {
         // Cargar el archivo de propiedades correspondiente al idioma
         ResourceBundle resourceBundle = ResourceBundle.getBundle("Idioma." + idioma);

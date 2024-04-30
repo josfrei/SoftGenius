@@ -61,6 +61,10 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
         setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));
         Timer timer = new Timer(1000, e -> actualizarHoraFecha());
         timer.start();
+        // Set option to 0 and repaint panelCentral
+        panelCentral.setOpcion(0);
+        panelCentral.repaint();
+
     }
     //Estilos que aplican al panel
     private void style() {
@@ -155,10 +159,14 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
         btnStock.setToolTipText("Stock");
         btnStock.addActionListener(this);
         
+        setToolTipManager();
+        btnIniciar.setBackground(colorFondo);
+        //btnIniciar.setBorderPainted(false);
+        btnIniciar.setToolTipText(btnIniciar.getText());
+        btnIniciar.addActionListener(this);
         
         btnOtroBoton.setBackground(colorFondo);
         btnVentas.setToolTipText("Ventas");
-        btnIniciar.setBackground(colorFondo);
         btnSalir.setBackground(colorFondo);
         btnSalir.setBorderPainted(false);
         btnSalir.addActionListener(this);
@@ -183,7 +191,7 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
         panel.add(btnVentas);
         panel.add(btnPersonal);
         panel.add(btnStock);
-        panel.add(btnOtroBoton);
+        //panel.add(btnOtroBoton);
         panel.add(btnIniciar);
         
         
@@ -284,6 +292,12 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
         if(e.getSource() == btnSalir){
             //Lógica para salir del programa, cerrar sesión, ¿volver a menu principal?
             System.exit(0);
+        }
+        if(e.getSource() == btnIniciar){
+            System.out.println("Botón 'Iniciar' presionado"); // Agregar mensaje de depuración
+            panelCentral.setOpcion(0);
+            panelCentral.repaint();
+            requestFocus();
         }
         if(e.getSource() == btnVentas){
             //Lógica para mostrar ventas en el futuro panel central
