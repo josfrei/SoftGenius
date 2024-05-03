@@ -3,6 +3,8 @@ package TestIG;
 import Idioma.Idiomas;
 import java.awt.*;
 import java.awt.color.ColorSpace;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.swing.*;
 
-public class PanelCentral extends JPanel {
+public class PanelCentral extends JPanel implements ActionListener{
 
     private JPanel panelCentralPrincipal;
     private final JPanel esquinaTopLeft = new JPanel();
@@ -36,7 +38,7 @@ public class PanelCentral extends JPanel {
         panelCentralPrincipal = new PanelCentralPrincipal(opcion);
         setPanelBottom();
         GBC();
-        ajustarColorBordes();
+        ajustarColorBordes(); 
         setVisible(true);
         try {
             conexionBBDD = ConexionBD.obtenerConexion("bbdd_config_softgenius");
@@ -90,7 +92,6 @@ public class PanelCentral extends JPanel {
         gbc.gridy = 1;
         gbc.weighty = 0.8;
         this.add(panelCentralPrincipal, gbc);
-        panelCentralPrincipal.setBackground(Color.red);
 
         // Panel inferior
         gbc.gridy = 2;
@@ -125,6 +126,8 @@ public class PanelCentral extends JPanel {
     //Panel inferior que contiene los botones y un panel entre ambos
     private void setPanelBottom() {
         styleBotones();
+        btnAbrir.addActionListener(this);
+        btnMenu.addActionListener(this);
         panelCentral_Bottom.setLayout(new GridBagLayout());
         GridBagConstraints gbc2 = new GridBagConstraints();
         gbc2.gridx = 0;
@@ -202,10 +205,44 @@ public class PanelCentral extends JPanel {
         btnMenu.setText(resourceBundle.getString("btnMenú"));
         btnAbrir.setText(resourceBundle.getString("btnAbrir"));
     }
-
     public String obtenerIdiomaActual() throws SQLException {
         Idiomas idiomas = new Idiomas(conexionBBDD);
         return idiomas.obtenerIdiomaActual();
     }
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnMenu) {
+            setOpcion(0);
+        }
+        if (e.getSource() == btnAbrir) {
+            
+          abrirPanel();
+        }
+    }
+    
+    public void abrirPanel() {
+        int opcionNuevoPanel = getOpcion();
+        JFrame nuevoFrame = new JFrame(getNombrePanel());
+        JPanel nuevoPanel = new PanelCentralPrincipal(opcionNuevoPanel);
+        nuevoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        nuevoFrame.setSize(600, 600);
+        nuevoFrame.setLayout(new BorderLayout()); 
+        nuevoFrame.add(nuevoPanel, BorderLayout.CENTER);
 
+
+        nuevoFrame.setLocationRelativeTo(null); // Centers the popup window on the screen
+        nuevoFrame.setVisible(true);
+    }
+
+    public String getNombrePanel() {
+        switch (getOpcion()) {
+            case 1:
+                return "RR.HH";
+            case 2:
+                return "Comercial";
+            case 3:
+                return "Informes";
+            default:
+                return "SoftGenius";
+        }
+    }
 }

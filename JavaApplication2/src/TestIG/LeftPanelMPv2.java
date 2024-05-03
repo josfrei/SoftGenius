@@ -61,9 +61,7 @@ public class LeftPanelMPv2 extends JPanel implements ActionListener{
         setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));
         Timer timer = new Timer(1000, e -> actualizarHoraFecha());
         timer.start();
-        // Set option to 0 and repaint panelCentral
-        panelCentral.setOpcion(0);
-        panelCentral.repaint();
+        
 
     }
     //Estilos que aplican al panel

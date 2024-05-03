@@ -17,11 +17,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 /*Esta clase representa el panel izquierdo del menú principal, que contiene una imagen con el logo
     Comboboxes desplegables y 2 botones de acción.*/
@@ -49,7 +58,7 @@ public class LeftPanelMPv3 extends JPanel implements ActionListener{
     private PanelCentral panelCentral;
     private final Color colorFondo = new Color(248, 248, 248 );
     private final Color colorBotones = new Color(237, 204, 223); //Color original de la gama de colores
-    private final Color colorCombobox = new Color(214, 234, 248 );
+    private final Color colorCombobox = new Color(248, 248, 248);
     private final Color colorLetraCB = Color.BLACK;
     private int ancho = 0;
 
@@ -58,9 +67,13 @@ public class LeftPanelMPv3 extends JPanel implements ActionListener{
         style();
         initComp();
         setBorder(BorderFactory.createLineBorder(new Color(204, 204, 204), 1));
-        // Start a timer to update the time and date every second
+        // Set option to 0 and repaint panelCentral
+        panelCentral.setOpcion(0);
+        panelCentral.repaint();
+        // Timer para el calendario (actualza fecha y hora
         Timer timer = new Timer(1000, e -> actualizarHoraFecha());
         timer.start();
+        
     }
     
     
@@ -105,7 +118,8 @@ public class LeftPanelMPv3 extends JPanel implements ActionListener{
         gbcLabels.weightx = 1.0;
         gbcLabels.weighty = 0.15;
         gbcLabels.anchor = GridBagConstraints.SOUTH;
-        gbcLabels.fill = GridBagConstraints.BOTH;
+        gbcLabels.fill = GridBagConstraints.HORIZONTAL;
+        gbcLabels.insets = new Insets(20, 20,20, 20);
         JPanel createLabelPanel = createLabelPanel();
         this.add(createLabelPanel, gbcLabels);
         lblCalendario.addMouseListener(new MouseAdapter() {
@@ -118,58 +132,92 @@ public class LeftPanelMPv3 extends JPanel implements ActionListener{
     
     // Estilizamos los componentes
     private void styleComponents() {
+        // Remove the original border of the JComboBox
+        cbRecursosHumanos.setBorder(null);
+        cbComercial.setBorder(null);
+        cbInformes.setBorder(null);
+
+
+        UIManager.put("ComboBox.padding", new Insets(3, 8, 3, 0));
         lblLogo.setPreferredSize(new Dimension(100, 100));
         lblLogo.setMaximumSize(new Dimension(200, 200));
         lblLogo.setHorizontalAlignment(JLabel.CENTER);
-        Font lblFont = new Font("Arial", Font.BOLD, 14);
+        Font lblFont = new Font("Montserrat", Font.PLAIN, 14);
+        Font cbBoxFont = new Font("Montserrat", Font.PLAIN, 12) ;
         
         
         lblRRHH.setFont(lblFont);
         lblComercial.setFont(lblFont);
         lblInformes.setFont(lblFont);
-        lblRRHH.setHorizontalAlignment(JLabel.CENTER);
-        lblComercial.setHorizontalAlignment(JLabel.CENTER);
-        lblInformes.setHorizontalAlignment(JLabel.CENTER);
-       
+        //lblRRHH.setHorizontalAlignment(JLabel.CENTER);
+        //lblComercial.setHorizontalAlignment(JLabel.CENTER);
+        //lblInformes.setHorizontalAlignment(JLabel.CENTER);
         
+        //Fuentes combobox
+        int fontSize = 14; // Set the desired font size
+        cbRecursosHumanos.setFont(cbBoxFont);
+        cbComercial.setFont(cbBoxFont);
+        cbInformes.setFont(cbBoxFont);
+        
+        //Colores fondo
         cbRecursosHumanos.setBackground(colorCombobox);
         cbComercial.setBackground(colorCombobox);
         cbInformes.setBackground(colorCombobox);
+        
+        //Color letra
         cbRecursosHumanos.setForeground(colorLetraCB);
         cbComercial.setForeground(colorLetraCB);
         cbInformes.setForeground(colorLetraCB);
         
+        //Padding
         
-        Font buttonFont = new Font("Arial", Font.BOLD, 14);
+        
+        
+        Font buttonFont = new Font("Arial", Font.PLAIN, 14);
         lblSesionActiva.setFont(buttonFont);
         lblCalendario.setFont(buttonFont);
         
-    
-        lblSesionActiva.setBackground(new Color(204, 102, 255));
-        lblSesionActiva.setForeground(Color.BLACK);
-        lblSesionActiva.setHorizontalAlignment(JLabel.CENTER);
         
-        lblCalendario.setBackground(new Color(204, 102, 255));
+        lblSesionActiva.setForeground(Color.BLACK);
         lblCalendario.setForeground(Color.BLACK);
-        lblCalendario.setHorizontalAlignment(JLabel.CENTER);
     }
 
     // Método para cambiar las distintas opciones de ComboBox
     public void opcionesComboBox() {
-        cbRecursosHumanos.addItem("empleados");
-        cbRecursosHumanos.addItem("sucursales");
-        cbRecursosHumanos.addItem("incidencias");
-        cbComercial.addItem("stock");
-        cbComercial.addItem("ventas");
-        cbComercial.addItem("productos");
-        cbComercial.addItem("clientes");
-        cbComercial.addItem("facturas");
+        
+        // Configura el renderizador de los JComboBox
+        Insets margenes = new Insets(2, 4, 2, 0);
+        configurarRenderizadorComboBox(cbRecursosHumanos, margenes);
+        configurarRenderizadorComboBox(cbComercial, margenes);
+        configurarRenderizadorComboBox(cbInformes, margenes);
+        cbRecursosHumanos.addItem("Empleados");
+        cbRecursosHumanos.addItem("Sucursales");
+        cbRecursosHumanos.addItem("Incidencias");
+        cbComercial.addItem("Stock");
+        cbComercial.addItem("Ventas");
+        cbComercial.addItem("Productos");
+        cbComercial.addItem("Clientes");
+        cbComercial.addItem("Facturas");
         cbInformes.addItem("Informes1");
         cbInformes.addItem("Informes2");
         cbInformes.addItem("Informes3");
         
     }
     
+    // Método para crear y configurar el renderizador para el JComboBox
+    public static void configurarRenderizadorComboBox(JComboBox<String> comboBox, Insets margenes) {
+        comboBox.setRenderer(new ListCellRenderer<String>() {
+            private final BasicComboBoxRenderer renderizadorPorDefecto = new BasicComboBoxRenderer();
+
+            @Override
+            public Component getListCellRendererComponent(JList<? extends String> lista, String valor, int indice,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                JLabel renderizador = (JLabel) renderizadorPorDefecto.getListCellRendererComponent(lista, valor, indice, isSelected, cellHasFocus);
+                renderizador.setBorder(BorderFactory.createEmptyBorder(margenes.top, margenes.left, margenes.bottom, margenes.right));
+                return renderizador;
+            }
+        });
+    }
     //Método que añade actionListener a los comboBoxes
     public void actionListComboBox(){
     cbRecursosHumanos.addActionListener(this);
@@ -184,9 +232,9 @@ public class LeftPanelMPv3 extends JPanel implements ActionListener{
     panel.setBackground(colorFondo); // Ajustar a color de fondo
     
     // Add empty border with top padding to each label
-    lblRRHH.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-    lblComercial.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-    lblInformes.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+    lblRRHH.setBorder(BorderFactory.createEmptyBorder(20, 4, 0, 0));
+    lblComercial.setBorder(BorderFactory.createEmptyBorder(20, 4, 0, 0));
+    lblInformes.setBorder(BorderFactory.createEmptyBorder(20, 4, 0, 0));
     
     panel.add(lblRRHH);
     panel.add(cbRecursosHumanos);
@@ -200,7 +248,7 @@ public class LeftPanelMPv3 extends JPanel implements ActionListener{
     
     // Método para crear el panel de botones
     private JPanel createLabelPanel() {
-        JPanel panel = new JPanel(new GridLayout(2, 1, 10, 0)); // 1 fila, 2 columnas, espacio horizontal de 10 pixels entre componentes
+        JPanel panel = new JPanel(new GridLayout(2, 1, 0, 10)); // 1 columna 2 filas
         panel.setBackground(colorFondo); // Puedes establecer el color de fondo según tus necesidades
         panel.add(lblSesionActiva);
         panel.add(lblCalendario);
@@ -253,48 +301,26 @@ public class LeftPanelMPv3 extends JPanel implements ActionListener{
         }
     }
     @Override
-    /*public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnSalir){
-            //Lógica para salir del programa, cerrar sesión, ¿volver a menu principal?
-            System.exit(0);
-        }
-        if(e.getSource() == btnVentas){
-            //Lógica para mostrar ventas en el futuro panel central
-            panelCentral.setOpcion(1);
-            panelCentral.repaint();
-            requestFocus();
-        }
-        if(e.getSource() == btnPersonal){
-            panelCentral.setOpcion(2);
-            panelCentral.repaint();
-            requestFocus();
-        }
-        if(e.getSource() == btnStock){
-            panelCentral.setOpcion(3);
-            panelCentral.repaint();
-            requestFocus();
-        }
-    }*/
-    
+  
     // ActionPerformed para los comboBox 
     public void actionPerformed(ActionEvent e) {
         String cbRRHH = (String) cbRecursosHumanos.getSelectedItem();    //get the selected item
         Object source = e.getSource();
          if (source == cbRecursosHumanos) {
             switch (cbRRHH) {
-                case "empleados":
+                case "Empleados":
                     panelCentral.setOpcion(2);
                     panelCentral.repaint();
                     requestFocus();
                     System.out.println("Seleccionado empleados");
                     break;
-                case "sucursales":
+                case "Sucursales":
                     panelCentral.setOpcion(2);
                     panelCentral.repaint();
                     requestFocus();
                     System.out.println("Seleccionado sucursales");
                     break;
-                case "incidencias":
+                case "Incidencias":
                     panelCentral.setOpcion(2);
                     panelCentral.repaint();
                     requestFocus();
@@ -309,30 +335,31 @@ public class LeftPanelMPv3 extends JPanel implements ActionListener{
             String cbPrd = (String) cbComercial.getSelectedItem();    //get the selected item
 
             switch (cbPrd) {
-                case "stock":
+                case "Stock":
                     panelCentral.setOpcion(3);
                     panelCentral.repaint();
                     requestFocus();
                     break;
-                case "ventas":
+                case "Ventas":
                     panelCentral.setOpcion(3);
                     panelCentral.repaint();
                     requestFocus();
                     break;
-                case "productos":
+                case "Productos":
                     panelCentral.setOpcion(3);
                     panelCentral.repaint();
                     requestFocus();
                     break;
-                case "clientes":
+                case "Clientes":
                     panelCentral.setOpcion(3);
                     panelCentral.repaint();
                     requestFocus();
                     break;
-                case "facturas":
+                case "Facturas":
                     panelCentral.setOpcion(3);
                     panelCentral.repaint();
                     requestFocus();
+                    System.out.println("Seleccionado Facturas");
                     break;
                 default:
 
@@ -369,4 +396,5 @@ public class LeftPanelMPv3 extends JPanel implements ActionListener{
            
     }
     
+
 }

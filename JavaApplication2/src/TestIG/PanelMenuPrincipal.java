@@ -6,7 +6,11 @@ package TestIG;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.swing.JPanel;
 
 /**
@@ -19,7 +23,7 @@ import javax.swing.JPanel;
 
 public class PanelMenuPrincipal extends JPanel {
     private final JPanel panelAuxiliar;
-    private final LeftPanelMPv2 leftPanelMP;
+    private final LeftPanelMPv3 leftPanelMP;
     //private final BottomPanelMP bottomPanelMP;
     private final PanelCentral panelCentral;
     
@@ -28,7 +32,7 @@ public class PanelMenuPrincipal extends JPanel {
         panelAuxiliar = new JPanel(); //Quedará por debajo del MP, como una capa
         //bottomPanelMP = new BottomPanelMP();
         panelCentral = new PanelCentral();
-        leftPanelMP = new LeftPanelMPv2(panelCentral);
+        leftPanelMP = new LeftPanelMPv3(panelCentral);
         Style();
         setLayout(new BorderLayout());
         
@@ -46,8 +50,5 @@ public class PanelMenuPrincipal extends JPanel {
         this.setBackground(Color.WHITE);
         panelAuxiliar.setLayout(new BorderLayout());
     }
-    
-    //añadir panel Lateral izquierdo
-
 
 }

@@ -65,8 +65,7 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
     // Add sub-panels based on the provided option
     private void addSubPanels(int opcion) {
         removeAll();
-        revalidate();
-        repaint();
+        
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -94,8 +93,11 @@ public class PanelCentralPrincipal extends JPanel implements ActionListener {
                 break;
             default:
                 // Handle unexpected option
-                break;
+                break;       
         }
+                    
+        revalidate();
+        repaint(); 
     }
     private void panelBienvenida() {
       
